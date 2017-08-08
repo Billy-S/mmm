@@ -245,6 +245,13 @@ if bucket then
 			"ln_bucket.png",
 			"Liquid Nitrogen Bucket"
 		)
+		bucket.register_liquid (
+			"mmm:spawn_fluid",
+			"mmm:spawn_fluid_flowing",
+			"mmm:spawn_fluid_bucket",
+			"sf_bucket.png",
+			"Spawn Fluid Bucket"
+		)
 	end
 end
 
