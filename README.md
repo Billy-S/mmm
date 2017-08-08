@@ -5,6 +5,6 @@ Here is a list of the items in MMM:
 
 Its cool, its cold, and it will stop you in your tracks! If you have BillyS's jail mod installed, this liquid will freeze any players who venture near it for too long.
 
-2) Spawn Fluid (Not yet implemented)
+2) Spawn Fluid
 
 Instant spawn! With a single touch, this liquid will cause players to respawn.
