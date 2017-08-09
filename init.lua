@@ -55,6 +55,34 @@ local function liquidCheck()
 	minetest.after(checkDelay, liquidCheck)
 end
 
+--nuclear self destruct
+
+minetest.register_node("mmm:nsd", {
+	description = "Nuclear Self Destruct (NSD)",
+	tiles = {
+		"nuke_top.png",
+		"nuke_sides.png",
+		"nuke_sides.png",
+		"nuke_sides.png",
+		"nuke_sides.png",
+		"nuke_sides.png",
+	},
+	is_ground_content = false,
+	groups = {snappy = 2},
+	on_construct = function(pos)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("formspec", 
+		"size[4,3]" ..
+		"label[-0.1,0;WARNING! This is a Self-Destruct Unit!]" ..
+		"pwdfield[0.75,1.25;3,1;pwd;Password;]" ..
+		"button[0.5,2;3,1;setpwd;Set Password]"
+		)
+	end,
+	on_punch = function(pos, node, player, pointed_thing)
+		
+	end,
+})
+
 --liquid nitrogen
 
 minetest.register_node("mmm:liquid_nitrogen", {
@@ -195,7 +223,7 @@ minetest.register_node("mmm:spawn_fluid", {
 minetest.register_node("mmm:spawn_fluid_flowing", {
 	description = "Flowing Spawn Fluid",
 	drawtype = "flowingliquid",
-	tiles = {"sf_flowing.png"},
+	tiles = {"sf_flowing_animated.png"},
 	special_tiles = {
 		{
 			name = "sf_flowing_animated.png",
