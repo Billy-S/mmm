@@ -8,3 +8,7 @@ Its cool, its cold, and it will stop you in your tracks! If you have BillyS's ja
 2) Spawn Fluid
 
 Instant spawn! With a single touch, this liquid will cause players to respawn.
+
+3) Nuclear Self Destruct (NSD)
+
+Get ready for a big boom! When given the correct password on the correct channel via the digilines mod, the NSD will completely destroy anything near it! (Note: The NSD will not damage protected areas)
