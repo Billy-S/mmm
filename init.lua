@@ -81,7 +81,7 @@ minetest.register_node("mmm:nsd", {
 		"field[0.75,2.5;3,1;channel;Channel;]" ..
 		"button_exit[0.5,3.25;3,1;setpwd;Done]"
 		)
-		meta:set_string("owner", placer)
+		meta:set_string("owner", placer:get_player_name())
 	end,
 	on_receive_fields = function(pos, formname, fields, sender)
 		local name = sender:get_player_name()
