@@ -329,3 +329,35 @@ if bucket then
 end
 
 minetest.after(checkDelay, liquidCheck)
+
+minetest.register_node("mmm:super_ice", {
+	description = "Super Ice",
+	tiles = {"super_ice.png"},
+	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+local on_ice = {}
+local function round(x)
+	return math.floor(x + 0.5)
+end
+
+minetest.register_globalstep(function (dtime)
+	for _,player in pairs(minetest.get_connected_players()) do
+		local name = player:get_player_name()
+		
+		local pos = player:getpos()
+		local rounded = {x=round(pos.x), y=round(pos.y), z=round(pos.z)}
+		local below = vector.subtract(rounded, {x=0,y=1,z=0})
+		
+		if minetest.get_node(below).name == "mmm:super_ice" then
+			if not on_ice[name] then
+				on_ice[name] = true
+				player:set_physics_override({speed = -0.1})
+			end
+		elseif on_ice[name] then
+			on_ice[name] = false
+			player:set_physics_override({speed = 1})
+		end
+	end
+end)
