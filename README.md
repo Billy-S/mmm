@@ -12,3 +12,7 @@ Instant spawn! With a single touch, this liquid will cause players to respawn.
 3) Nuclear Self Destruct (NSD)
 
 Get ready for a big boom! When given the correct password on the correct channel via the digilines mod, the NSD will completely destroy anything near it! (Note: The NSD will not damage protected areas)
+
+4) Super Ice
+
+When you skate on ice as slippery as this, you /speed up/! I didn't even know that was /possible/!
