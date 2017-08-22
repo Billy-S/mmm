@@ -9,7 +9,6 @@ for i, name in ipairs(minetest.get_modnames()) do
 	end
 end
 
-local checkDelay = 5 -- If this mod gets too laggy, increase this number
 local defrostTime = 15
 local spawnPos = {x=0, y=49, z=0}
 local expRad = 3
@@ -55,7 +54,6 @@ local function liquidCheck()
 			player:setpos(spawnPos)
 		end
 	end
-	minetest.after(checkDelay, liquidCheck)
 end
 
 --nuclear self destruct
@@ -86,7 +84,8 @@ minetest.register_node("mmm:nsd", {
 	on_receive_fields = function(pos, formname, fields, sender)
 		local name = sender:get_player_name()
 		local meta = minetest.get_meta(pos)
-		if minetest.is_protected(pos, name) and not minetest.check_player_privs(name, {protection_bypass=true}) then
+		if minetest.is_protected(pos, name) then
+			minetest.chat_send_player(name, "You don't own this NSD!")
 			minetest.record_protection_violation(pos, name)
 			return
 		end
@@ -328,8 +327,6 @@ if bucket then
 	end
 end
 
-minetest.after(checkDelay, liquidCheck)
-
 minetest.register_node("mmm:super_ice", {
 	description = "Super Ice",
 	tiles = {"super_ice.png"},
@@ -337,27 +334,51 @@ minetest.register_node("mmm:super_ice", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+minetest.register_abm({
+	label = "Liquid Nitrogen And Water",
+	nodenames = {"default:water_source", "default:water_flowing"},
+	neighbors = {"mmm:liquid_nitrogen", "mmm:liquid_nitrogen_flowing"}, 
+	interval = 2.0,
+	chance = 2,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		minetest.set_node(pos, {name = "default:ice"})
+	end
+})
+
+minetest.register_abm({
+	label = "Liquid Nitrogen And Spawn Fluid",
+	nodenames = {"mmm:spawn_fluid", "mmm:spawn_fluid_flowing"},
+	neighbors = {"mmm:liquid_nitrogen", "mmm:liquid_nitrogen_flowing"}, 
+	interval = 2.0,
+	chance = 2,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		minetest.set_node(pos, {name = "mmm:super_ice"})
+	end
+})
+
 local on_ice = {}
 local function round(x)
 	return math.floor(x + 0.5)
 end
 
+minetest.register_globalstep(liquidCheck)
+
 minetest.register_globalstep(function (dtime)
 	for _,player in pairs(minetest.get_connected_players()) do
 		local name = player:get_player_name()
-		
-		local pos = player:getpos()
-		local rounded = {x=round(pos.x), y=round(pos.y), z=round(pos.z)}
-		local below = vector.subtract(rounded, {x=0,y=1,z=0})
-		
-		if minetest.get_node(below).name == "mmm:super_ice" then
-			if not on_ice[name] then
-				on_ice[name] = true
-				player:set_physics_override({speed = -0.1})
+		if not frozen_players[name] then
+			local pos = player:getpos()
+			local rounded = {x=round(pos.x), y=round(pos.y), z=round(pos.z)}
+			local below = vector.subtract(rounded, {x=0,y=1,z=0})
+			if minetest.get_node(below).name == "mmm:super_ice" then
+				if not on_ice[name] then
+					on_ice[name] = true
+					player:set_physics_override({speed = -0.1})
+				end
+			elseif on_ice[name] then
+				on_ice[name] = false
+				player:set_physics_override({speed = 1})
 			end
-		elseif on_ice[name] then
-			on_ice[name] = false
-			player:set_physics_override({speed = 1})
 		end
 	end
 end)
