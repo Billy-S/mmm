@@ -338,7 +338,7 @@ minetest.register_abm({
 	label = "Liquid Nitrogen And Water",
 	nodenames = {"default:water_source", "default:water_flowing"},
 	neighbors = {"mmm:liquid_nitrogen", "mmm:liquid_nitrogen_flowing"}, 
-	interval = 8.0,
+	interval = 20.0,
 	chance = 2,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "default:ice"})
@@ -349,7 +349,7 @@ minetest.register_abm({
 	label = "Liquid Nitrogen And Spawn Fluid",
 	nodenames = {"mmm:spawn_fluid", "mmm:spawn_fluid_flowing"},
 	neighbors = {"mmm:liquid_nitrogen", "mmm:liquid_nitrogen_flowing"}, 
-	interval = 8.0,
+	interval = 20.0,
 	chance = 2,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		minetest.set_node(pos, {name = "mmm:super_ice"})
