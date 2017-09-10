@@ -169,8 +169,12 @@ minetest.register_node("mmm:base_guard", {
 			return
 		end
 		meta:set_string("enabled", "yes")
-		meta:set_string("allowed", fields.players)
-		meta:set_string("radius", fields.radius)
+		if fields.players then
+			meta:set_string("allowed", fields.players)
+		end
+		if tonumber(fields.radius) then
+			meta:set_string("radius", fields.radius)
+		end
 	end,
 	on_destruct = function (pos)
 		local meta = minetest.get_meta(pos)
