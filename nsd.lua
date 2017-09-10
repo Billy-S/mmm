@@ -11,7 +11,7 @@ minetest.register_node("mmm:nsd", {
 		"nuke_sides.png",
 	},
 	is_ground_content = false,
-	groups = {snappy = 2},
+	groups = {snappy = 2, not_in_creative_inventory = 1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", 

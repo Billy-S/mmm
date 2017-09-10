@@ -5,6 +5,7 @@
 local modPath = minetest.get_modpath(minetest.get_current_modname())
 
 dofile(modPath .. "/security.lua")
+dofile(modPath .. "/nsd.lua")
 
 local jailMod = false
 for i, name in ipairs(minetest.get_modnames()) do
@@ -103,7 +104,7 @@ minetest.register_node("mmm:liquid_nitrogen", {
 	liquid_alternative_source = "mmm:liquid_nitrogen",
 	liquid_viscosity = 2,
 	post_effect_color = {a = 103, r = 30, g = 60, b = 90},
-	groups = {water = 3, liquid = 3, puts_out_fire = 3, cools_lava = 3},
+	groups = {water = 3, liquid = 3, puts_out_fire = 3, cools_lava = 3, not_in_creative_inventory = 1},
 })
 
 minetest.register_node("mmm:liquid_nitrogen_flowing", {
@@ -194,7 +195,7 @@ minetest.register_node("mmm:spawn_fluid", {
 	liquid_alternative_source = "mmm:spawn_fluid",
 	liquid_viscosity = 2,
 	post_effect_color = {a = 103, r = 30, g = 60, b = 90},
-	groups = {water = 3, liquid = 3},
+	groups = {water = 3, liquid = 3, not_in_creative_inventory = 1},
 })
 
 minetest.register_node("mmm:spawn_fluid_flowing", {
@@ -248,14 +249,16 @@ if bucket then
 			"mmm:liquid_nitrogen_flowing",
 			"mmm:liquid_nitrogen_bucket",
 			"ln_bucket.png",
-			"Liquid Nitrogen Bucket"
+			"Liquid Nitrogen Bucket",
+			{not_in_creative_inventory = 1}
 		)
 		bucket.register_liquid (
 			"mmm:spawn_fluid",
 			"mmm:spawn_fluid_flowing",
 			"mmm:spawn_fluid_bucket",
 			"sf_bucket.png",
-			"Spawn Fluid Bucket"
+			"Spawn Fluid Bucket",
+			{not_in_creative_inventory = 1}
 		)
 	end
 end
