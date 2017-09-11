@@ -117,7 +117,7 @@ minetest.register_node("mmm:security_taser", {
 					local meta = minetest.get_meta(pos)
 					local searchChan = meta:get_string("digichannel")
 					local detectedPlayers = minetest.get_objects_inside_radius(pos, 4)
-					if msgChan == searchChan then
+					if msgChan == searchChan and type(msg) == "string" then
 						for pName in msg:gmatch("[^,]+") do
 							for _,obj in ipairs(detectedPlayers) do
 								if obj:is_player() then
