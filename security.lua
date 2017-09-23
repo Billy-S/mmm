@@ -1,4 +1,19 @@
-baseGuards = {}
+local path = minetest.get_worldpath() .. "/"
+local file = io.open(path .. "BGData.txt", "r")
+if file then
+	baseGuards = minetest.deserialize(file:read("*all"))
+	file:close()
+else
+	baseGuards = {}
+end
+
+function addBaseGuard(pos)
+	table.insert(baseGuards, pos)
+	local file = io.open(path .. "BGData.txt", "w")
+	if not file then return false end
+	file:write(minetest.serialize(baseGuards))
+	file:close()
+end
 
 --digiline-controlled taser
 function tasePlayer(obj)
@@ -157,7 +172,7 @@ minetest.register_node("mmm:base_guard", {
 		meta:set_string("enabled", "no")
 		meta:set_string("allowed", "")
 		meta:set_string("radius", "0")
-		table.insert(baseGuards, pos)
+		addBaseGuard(pos)
 	end,
 	on_receive_fields = function(pos, formname, fields, sender)
 		local name = sender:get_player_name()
