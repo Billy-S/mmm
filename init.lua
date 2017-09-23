@@ -3,20 +3,34 @@
 -- license: whatever
 
 local modPath = minetest.get_modpath(minetest.get_current_modname())
+minetest.register_privilege("freeze", { description = "Allows one to freeze/defrost players" })
 
 dofile(modPath .. "/security.lua")
 dofile(modPath .. "/nsd.lua")
 
-local jailMod = false
-for i, name in ipairs(minetest.get_modnames()) do
-	if name == "jail" then
-		jailMod = true
+local defrostTime = 15
+local spawnPos = {x=0, y=49, z=0}
+frozen_players = {}
+
+function freezePlayer (pName)
+	local player = minetest.env:get_player_by_name(pName)
+	if player and not frozen_players[pName] then
+		player:set_physics_override({speed = 0, jump = 0, gravity = 1.0, sneak = false, sneak_glitch = false})
+		minetest.chat_send_player(pName, "You have been frozen!")
+		frozen_players[pName] = true
+		return true
 	end
 end
 
-local defrostTime = 15
-local spawnPos = {x=0, y=49, z=0}
-local expRad = 3
+function defrostPlayer (pName)
+	local player = minetest.env:get_player_by_name(pName)
+	if player and frozen_players[pName] then
+		player:set_physics_override({speed = 1.0, jump = 1.0, gravity = 1.0, sneak = true, sneak_glitch = false})
+		minetest.chat_send_player(pName, "You have been defrosted!")
+		frozen_players[pName] = false
+		return true
+	end
+end
 
 local function freezeCheck(player)
 	local pos = player:get_pos()
@@ -48,18 +62,35 @@ end
 
 local function liquidCheck()
 	for _, player in ipairs(minetest.get_connected_players()) do
-		if jailMod then
-			if freezeCheck(player) then
-				freezePlayer (player:get_player_name())
-			elseif frozen_players[player:get_player_name()] then
-				minetest.after(defrostTime, defrostPlayer, player:get_player_name())
-			end
+		if freezeCheck(player) then
+			freezePlayer (player:get_player_name())
+		elseif frozen_players[player:get_player_name()] then
+			minetest.after(defrostTime, defrostPlayer, player:get_player_name())
 		end
 		if spawnCheck(player) then
 			player:setpos(spawnPos)
 		end
 	end
 end
+
+
+minetest.register_chatcommand("freeze", {
+	params = "<player>",
+	description = "Immobilizes a player",
+	privs = {freeze=true},
+	func = function (name, param)
+		freezePlayer(param)
+	end,	
+})
+
+minetest.register_chatcommand("defrost", {
+	params = "<player>",
+	description = "Remobilizes a player",
+	privs = {freeze=true},
+	func = function (name, param)
+		defrostPlayer(param)
+	end,	
+})
 
 --liquid nitrogen
 

@@ -182,6 +182,18 @@ minetest.register_node("mmm:base_guard", {
 	end
 })
 
+minetest.register_tool("mmm:taser_gun", {
+	description = "Taser Gun",
+	inventory_image = "taser_gun.png",
+	on_use = function(itemstack, user, pointed_thing)
+			if pointed_thing.type == "object" then
+				if pointed_thing.ref:is_player() then
+					tasePlayer(pointed_thing.ref)
+				end
+			end
+	end,
+})
+
 minetest.register_globalstep(function(dtime)
 	for _,baseGuard in ipairs(baseGuards) do
 		checkBaseBlock(baseGuard)

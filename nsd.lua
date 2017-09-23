@@ -1,4 +1,5 @@
 --nuclear self destruct
+local expRad = 7
 
 minetest.register_node("mmm:nsd", {
 	description = "Nuclear Self Destruct (NSD)",
