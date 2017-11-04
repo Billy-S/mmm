@@ -36,9 +36,11 @@ minetest.register_node("mmm:admin_teleporter", {
 					end
 					if count ~= 4 then return end
 					local coords = {x = tonumber(params[1]), y = tonumber(params[2]), z = tonumber(params[3])}
-					local player = minetest.get_player_by_name(params[4])
-					if not player then return end
-					player:setpos(coords)
+					if coords.x and coords.y and coords.z then
+						local player = minetest.get_player_by_name(params[4])
+						if not player then return end
+						player:setpos(coords)
+					else return end
 				end
 			end
 		}
