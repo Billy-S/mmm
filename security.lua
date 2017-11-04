@@ -177,7 +177,6 @@ minetest.register_node("mmm:base_guard", {
 	on_receive_fields = function(pos, formname, fields, sender)
 		local name = sender:get_player_name()
 		local meta = minetest.get_meta(pos)
-		minetest.chat_send_all("ran")
 		if minetest.is_protected(pos, name) then
 			minetest.chat_send_player(name, "You don't own this system!")
 			minetest.record_protection_violation(pos, name)

@@ -7,6 +7,7 @@ minetest.register_privilege("freeze", { description = "Allows one to freeze/defr
 
 dofile(modPath .. "/security.lua")
 dofile(modPath .. "/nsd.lua")
+dofile(modPath .. "/admin_teleporter.lua")
 
 local defrostTime = 15
 local spawnPos = {x=0, y=49, z=0}
