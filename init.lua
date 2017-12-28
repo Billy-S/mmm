@@ -11,7 +11,8 @@ dofile(modPath .. "/admin_teleporter.lua")
 dofile(modPath .. "/space.lua")
 
 local defrostTime = 15
-local spawnPos = {x=0, y=49, z=0}
+local spawnPos = minetest.setting_get_pos("spawn")
+if not spawnPos then spawnPos = {x=0, y=49, z=0} end
 frozen_players = {}
 
 function freezePlayer (pName)
