@@ -276,6 +276,22 @@ minetest.register_node("mmm:spawn_fluid_flowing", {
 	groups = {water = 3, liquid = 3, not_in_creative_inventory = 1},
 })
 
+minetest.register_craftitem("mmm:fertilizer", {
+	description = "Makes plants grow faster",
+	inventory_image = "fertilizer.png",
+	on_use = function(itemstack, user, pointed_thing)
+		local pos = pointed_thing.under
+		farming.grow_plant(pos, 0)
+		return itemstack:take_item()
+	end
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "mmm:fertilizer 10",
+	recipe = {"default:mese_crystal", "bones:bones"}
+})
+
 if bucket then
 	if bucket.register_liquid then
 		bucket.register_liquid (
