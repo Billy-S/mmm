@@ -282,7 +282,8 @@ minetest.register_craftitem("mmm:fertilizer", {
 	on_use = function(itemstack, user, pointed_thing)
 		local pos = pointed_thing.under
 		farming.grow_plant(pos, 0)
-		return itemstack:take_item()
+		itemstack:take_item()
+		return itemstack
 	end
 })
 
